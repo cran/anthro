@@ -127,7 +127,7 @@
 #' repeated to match the maximum length of all arguments except
 #' \code{is_age_in_month} using \code{rep_len}. This happens without warnings.
 #'
-#' Z-scores are only computed for children older than 60 months (age in months <= 60)
+#' Z-scores are only computed for children younger than 60 months (age in months <= 60)
 #'
 #' @references
 #' WHO Multicentre Growth Reference Study Group (2006). WHO Child Growth Standards: Length/height-for-age, weight-for-age, weight-for-length, weight-for-height and body mass index-for-age: Methods and development.
@@ -146,9 +146,13 @@
 #' # or use it with a compute dataset
 #' \dontrun{
 #' your_data_set <- read.csv("<your survey>.csv")
-#' with(your_data_set,
-#'      anthro_zscores(sex = sex, age = age_in_days,
-#'                     weight = weight, lenhei = lenhei))
+#' with(
+#'   your_data_set,
+#'   anthro_zscores(
+#'     sex = sex, age = age_in_days,
+#'     weight = weight, lenhei = lenhei
+#'   )
+#' )
 #' }
 #' @include anthro.R
 #' @include assertions.R
@@ -168,8 +172,11 @@ anthro_zscores <- function(sex,
   assert_length(is_age_in_month, 1L)
   assert_character_or_numeric(sex)
   assert_values_in_set(sex,
-                       allowed = c("1", "2", "m",
-                                   "f", "M", "F", NA_character_))
+    allowed = c(
+      "1", "2", "m",
+      "f", "M", "F", NA_character_
+    )
+  )
   assert_numeric(age)
   assert_numeric(weight)
   assert_numeric(lenhei)
@@ -180,19 +187,22 @@ anthro_zscores <- function(sex,
   assert_numeric(triskin)
   assert_numeric(subskin)
   assert_values_in_set(oedema,
-                       allowed = c("n", "y", "N", "Y", "2", "1", NA_character_))
+    allowed = c("n", "y", "N", "Y", "2", "1", NA_character_)
+  )
 
   # make all input lengths equal
-  max_len <- pmax(length(sex),
-                  length(age),
-                  length(weight),
-                  length(lenhei),
-                  length(measure),
-                  length(headc),
-                  length(armc),
-                  length(triskin),
-                  length(subskin),
-                  length(oedema))
+  max_len <- pmax(
+    length(sex),
+    length(age),
+    length(weight),
+    length(lenhei),
+    length(measure),
+    length(headc),
+    length(armc),
+    length(triskin),
+    length(subskin),
+    length(oedema)
+  )
   sex <- rep_len(sex, length.out = max_len)
   age <- rep_len(age, length.out = max_len)
   weight <- rep_len(weight, length.out = max_len)
@@ -205,11 +215,11 @@ anthro_zscores <- function(sex,
   oedema <- rep_len(oedema, length.out = max_len)
 
   # clean sex
-  sex <- standardize_sex_var(sex)
+  csex <- standardize_sex_var(sex)
 
   # clean measure
-  measure <- tolower(trimws(measure))
-  measure[!(is.na(measure) | measure %in% c("l", "h"))] <- NA_character_
+  cmeasure <- tolower(trimws(measure))
+  cmeasure[!(is.na(cmeasure) | cmeasure %in% c("l", "h"))] <- NA_character_
 
   # clean oedema, we set all oedema not being "y" to "n"
   oedema <- standardize_oedema_var(oedema)
@@ -219,23 +229,31 @@ anthro_zscores <- function(sex,
 
   # we consider a height measure for children younger than 9 months as
   # implausible
-  measure_implausible <- measure == "h" & age_in_months < 9
-  measure[measure_implausible] <- NA_character_
+  measure_implausible <- !is.na(cmeasure) &
+    !is.na(age_in_months) &
+    cmeasure == "h" &
+    age_in_months < 9
+  cmeasure[measure_implausible] <- NA_character_
 
-  clenhei <- adjust_lenhei(age_in_days, measure, lenhei)
+  clenhei <- adjust_lenhei(age_in_days, cmeasure, lenhei)
 
-  cbmi <- weight / ( (clenhei / 100) ^ 2)
+  cbmi <- weight / ((clenhei / 100)^2)
   cbind(
     clenhei,
     cbmi,
-    anthro_zscore_length_for_age(clenhei, age_in_days, sex),
-    anthro_zscore_weight_for_age(weight, age_in_days, sex, oedema),
-    anthro_zscore_weight_for_lenhei(weight, clenhei, measure, age_in_days,
-                                    sex, oedema),
-    anthro_zscore_bmi_for_age(cbmi, age_in_days, sex, oedema),
-    anthro_zscore_head_circumference_for_age(headc, age_in_days, sex),
-    anthro_zscore_arm_circumference_for_age(armc, age_in_days, sex),
-    anthro_zscore_triceps_skinfold_for_age(triskin, age_in_days, sex),
-    anthro_zscore_subscapular_skinfold_for_age(subskin, age_in_days, sex)
+    cmeasure,
+    csex,
+    anthro_zscore_length_for_age(clenhei, age_in_days, csex),
+    anthro_zscore_weight_for_age(weight, age_in_days, csex, oedema),
+    anthro_zscore_weight_for_lenhei(
+      weight, clenhei, cmeasure, age_in_days,
+      csex, oedema
+    ),
+    anthro_zscore_bmi_for_age(cbmi, age_in_days, csex, oedema),
+    anthro_zscore_head_circumference_for_age(headc, age_in_days, csex),
+    anthro_zscore_arm_circumference_for_age(armc, age_in_days, csex),
+    anthro_zscore_triceps_skinfold_for_age(triskin, age_in_days, csex),
+    anthro_zscore_subscapular_skinfold_for_age(subskin, age_in_days, csex),
+    stringsAsFactors = FALSE
   )
 }

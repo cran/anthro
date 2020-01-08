@@ -4,10 +4,19 @@
 \alias{anthro_zscores}
 \title{Calculate z-scores for the eight anthropometric indicators}
 \usage{
-anthro_zscores(sex, age = NA_real_, is_age_in_month = FALSE,
-  weight = NA_real_, lenhei = NA_real_, measure = NA_character_,
-  headc = NA_real_, armc = NA_real_, triskin = NA_real_,
-  subskin = NA_real_, oedema = "n")
+anthro_zscores(
+  sex,
+  age = NA_real_,
+  is_age_in_month = FALSE,
+  weight = NA_real_,
+  lenhei = NA_real_,
+  measure = NA_character_,
+  headc = NA_real_,
+  armc = NA_real_,
+  triskin = NA_real_,
+  subskin = NA_real_,
+  oedema = "n"
+)
 }
 \arguments{
 \item{sex}{A numeric or text variable containing gender information.
@@ -139,7 +148,7 @@ If not all parameter values have equal length, parameter values will be
 repeated to match the maximum length of all arguments except
 \code{is_age_in_month} using \code{rep_len}. This happens without warnings.
 
-Z-scores are only computed for children older than 60 months (age in months <= 60)
+Z-scores are only computed for children younger than 60 months (age in months <= 60)
 }
 \description{
 This function calculates z-scores for the eight anthropometric indicators,
@@ -158,9 +167,13 @@ anthro_zscores(sex = "f", age = c(10, 20, 30), weight = 10)
 # or use it with a compute dataset
 \dontrun{
 your_data_set <- read.csv("<your survey>.csv")
-with(your_data_set,
-     anthro_zscores(sex = sex, age = age_in_days,
-                    weight = weight, lenhei = lenhei))
+with(
+  your_data_set,
+  anthro_zscores(
+    sex = sex, age = age_in_days,
+    weight = weight, lenhei = lenhei
+  )
+)
 }
 }
 \references{
