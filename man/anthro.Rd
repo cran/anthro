@@ -10,9 +10,5 @@ Provides WHO Child Growth Standards (z-scores) with
 confidence intervals and standard errors around the
 prevalence estimates, taking into account complex sample designs.
 More information on the methods is available online:
-<\url{https://www.who.int/childgrowth/standards/en/}>.
-
-Package lifecycle is "maturing" in the tidyverse sense (<\url{https://www.tidyverse.org/lifecycle/}>).
-It is aimed to keep the API backward compatible, but changes to the API
-might occur.
+<\url{https://www.who.int/tools/child-growth-standards}>.
 }
