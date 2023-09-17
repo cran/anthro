@@ -1,10 +1,10 @@
-b5697ccf9a430faddb18540228d3e516 *DESCRIPTION
+8de4fba6f10bc795916c77770c87e0a0 *DESCRIPTION
 8f852ce63bd2077c3d46161b3c6ad8b1 *NAMESPACE
-565f285e97eeafe25e754ce7c73db36f *NEWS.md
-3a313e6eb020ebb8993e3e3eede0aa24 *R/anthro.R
+213f56e609d8314433caa82377fa4237 *NEWS.md
+616362e308456857e3eb03f15be012b9 *R/anthro-package.R
 1a33fbb3ad835f9faf96f3b67829addb *R/api.R
 d113edf00c337ca3d2c5552248f81cba *R/assertions.R
-2d853797d8321974b38fcf7c34cbe913 *R/prevalence.R
+ed798760ce5a2b09bab67801d3afcb24 *R/prevalence.R
 5a04eb861e11d5d1279f825e36adffa2 *R/sysdata.rda
 fc94fa7cca600dec07a9bf43376b5de4 *R/utils.R
 f8538764525c6260a59e96bfa44dfd7f *R/z-score-arm-circumference-for-age.R
@@ -16,9 +16,9 @@ a78dec6d2d36698810f3503fd8b70d39 *R/z-score-head-circumference-for-age.R
 e85aa0b8c08b9cfda3e5a299a8058888 *R/z-score-triceps-skinfold-for-age.R
 ffde83b3ac151c6de4f41f2de74af50f *R/z-score-weight-for-age.R
 9f5eaae8bfdbe9493a47891d43b3ddd7 *R/z-score-weight-for-lenhei.R
-19dbd08dc6de84298bddb6c23d6440ac *R/z-score.R
+b057b2308990e234711fd1f06af0e88b *R/z-score.R
 00e0ebb1984e10cf2a6912e488649782 *README.md
-a8dbd63f303a1fed03824ae41e76eded *man/anthro.Rd
+43e492f9835723ff20e47abfa312306b *man/anthro-package.Rd
 0def003142be2309eb31773cb9b6771d *man/anthro_api_compute_prevalence.Rd
 3d2c908bbccf1a0a12fb72d2846e14b3 *man/anthro_api_compute_zscore.Rd
 506d1c799c7c30c99ac234959957e584 *man/anthro_api_compute_zscore_adjusted.Rd
